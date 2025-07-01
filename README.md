@@ -32,6 +32,7 @@ b. Windows 32bit OS:
 2. add it to path: 
 
 `setx PATH "C:\Program Files\vidder;%PATH%"` 
+
 3. close terminal, and open either powershell or cmd again, and check if yt-dlp was installed properly: 
 
 `yt-dlp --version`
