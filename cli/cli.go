@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"yt/core"
+
+	"github.com/E-nkv/vidder/core"
 
 	"github.com/common-nighthawk/go-figure"
 )

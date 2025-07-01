@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"yt/core"
+
+	"github.com/E-nkv/vidder/core"
 )
 
 // PromptVideoOptions interactively fills VideoOptions for a video URL.

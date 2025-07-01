@@ -1,0 +1,86 @@
+name: Build and Release Binaries
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write  #
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.24.4'
+
+      - name: Prepare bin directory
+        run: mkdir -p ./bin
+
+      - name: Build binaries matrix
+        run: |
+          # Build Linux 64-bit
+          GOOS=linux GOARCH=amd64 go build -o ./bin/vidder-linux64 .
+          # Build Linux 32-bit
+          GOOS=linux GOARCH=386 go build -o ./bin/vidder-linux32 .
+          # Build Windows 64-bit
+          GOOS=windows GOARCH=amd64 go build -o ./bin/vidder-win64.exe .
+          # Build Windows 32-bit
+          GOOS=windows GOARCH=386 go build -o ./bin/vidder-win32.exe .
+          # Build macOS 64-bit Intel
+          GOOS=darwin GOARCH=amd64 go build -o ./bin/vidder-darwin-amd .
+          # Build macOS ARM64
+          GOOS=darwin GOARCH=arm64 go build -o ./bin/vidder-darwin-arm .
+
+      - name: Install jq (for JSON processing)
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Get latest draft release ID
+        id: get_release
+        run: |
+          # Fetch latest draft release ID
+          RELEASE_ID=$(gh release list --limit 1 --json draft, id --jq '.[] | select(.draft==true) | .id' || echo "")
+          echo "release_id=$RELEASE_ID" >> $GITHUB_OUTPUT
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete existing assets from draft release
+        if: steps.get_release.outputs.release_id != ''
+        run: |
+          RELEASE_ID=${{ steps.get_release.outputs.release_id }}
+          echo "Deleting assets from release $RELEASE_ID"
+          ASSETS=$(gh api repos/${{ github.repository }}/releases/$RELEASE_ID/assets --jq '.[].id')
+          for asset in $ASSETS; do
+            echo "Deleting asset $asset"
+            gh api -X DELETE repos/${{ github.repository }}/releases/assets/$asset
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload new binaries to draft release
+        if: steps.get_release.outputs.release_id != ''
+        run: |
+          RELEASE_ID=${{ steps.get_release.outputs.release_id }}
+          for file in ./bin/*; do
+            echo "Uploading $file"
+            gh release upload $RELEASE_ID "$file" --clobber
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish draft release
+        if: steps.get_release.outputs.release_id != ''
+        run: |
+          gh api -X PATCH \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/releases/${{ steps.get_release.outputs.release_id }} \
+            -f draft=false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

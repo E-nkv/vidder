@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"log"
 	"testing"
-	"yt/core"
+
+	"github.com/E-nkv/vidder/core"
 )
 
 func TestVideo(t *testing.T) {

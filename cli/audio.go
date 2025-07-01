@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"yt/core"
+
+	"github.com/E-nkv/vidder/core"
 )
 
 // PromptAudioOptions interactively fills AudioOptions for a video URL or playlist audio.

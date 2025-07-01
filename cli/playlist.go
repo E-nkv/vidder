@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"yt/core"
+
+	"github.com/E-nkv/vidder/core"
 )
 
 // PromptPlaylistOptions interactively fills PlaylistOptions for a playlist URL.

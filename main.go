@@ -1,6 +1,6 @@
 package main
 
-import "yt/cli"
+import "github.com/E-nkv/vidder/cli"
 
 func main() {
 	cli.Run()
