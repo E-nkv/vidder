@@ -21,13 +21,18 @@ Yes, real developers start counting from 0. If u need the docs, go to [yt-dlp's 
 ### On Windows:
 1. open cmd with admin rights and: 
 a. Windows 64bit OS (most likely you are using this one): 
+
 `mkdir -p C:\Program Files\vidder & curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe -o "C:\Program Files\vidder\yt-dlp.exe"`
+
 b. Windows 32bit OS: 
+
 `mkdir -p C:\Program Files\vidder & curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_x86.exe -o "C:\Program Files\vidder\yt-dlp.exe"`
   
 2. add it to path: 
+
 `setx PATH "C:\Program Files\vidder;%PATH%"` 
 3. close terminal, and open either powershell or cmd again, and check if yt-dlp was installed properly: 
+
 `yt-dlp --version`
 
 ### On Linux (64bit):
