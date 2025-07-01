@@ -20,6 +20,7 @@ Yes, real developers start counting from 0. If u need the docs, go to [yt-dlp's 
 
 ### On Windows:
 1. open cmd with admin rights and: 
+
 a. Windows 64bit OS (most likely you are using this one): 
 
 `mkdir -p C:\Program Files\vidder & curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe -o "C:\Program Files\vidder\yt-dlp.exe"`
