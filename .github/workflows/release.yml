@@ -6,8 +6,6 @@ on:
       - master
     paths:
       - '**/*.go' #Only trigger rebuilding & reuploading binaries if we make change to gofiles
-    paths-ignore:
-      - '*.md'
 permissions:
   contents: write  
 
