@@ -19,7 +19,6 @@ func wantsHelp(args []string) bool {
 	}
 	arg := args[0]
 	return arg == "--help" || arg == "-h"
-
 }
 
 // Run is the main entry point for the CLI.
