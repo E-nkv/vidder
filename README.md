@@ -23,7 +23,7 @@ If u need the docs, go to [yt-dlp's github](https://github.com/yt-dlp/yt-dlp). I
 Open *cmd* with admin rights and RUN ONE BY ONE THE FOLLOWING COMMANDS: 
  
 ```
-mkdir -p C:\Program Files\vidder & curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe -o "C:\Program Files\vidder\yt-dlp.exe"
+mkdir -p "C:\Program Files\vidder" & curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe -o "C:\Program Files\vidder\yt-dlp.exe"
 setx PATH "C:\Program Files\vidder;%PATH%"
 
 #close and reopen the terminal
