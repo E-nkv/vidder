@@ -17,6 +17,8 @@ type CommandBuilder interface {
 	BuildCommand() string
 	SetDefaults()
 	GetOS() OS
+	SetURL(string)
+	Clone() CommandBuilder
 }
 
 // BuildCommand takes in a CommandBuilder (either VideoOptions, AudioOptions, or PlaylistOptions)

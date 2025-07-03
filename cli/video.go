@@ -9,7 +9,7 @@ import (
 )
 
 // PromptVideoOptions interactively fills VideoOptions for a video URL.
-func PromptVideoOptions(url, outdir string, opSys core.OS, isPlaylist bool) *core.VideoOptions {
+func PromptVideoOptions(url, outdir string, opSys core.OS, askCustomName bool) *core.VideoOptions {
 	opts := []LabelValue{
 		{Label: "Best 🚀", Value: "best"},
 		{Label: "1080p 😉", Value: "1080"},
@@ -36,7 +36,7 @@ func PromptVideoOptions(url, outdir string, opSys core.OS, isPlaylist bool) *cor
 	}
 
 	outputName := ""
-	if !isPlaylist {
+	if askCustomName {
 		outputName = PromptString("Video name? (Leave empty to use default name of VIDEO'S TITLE): ")
 		outputName = strings.TrimSpace(outputName)
 

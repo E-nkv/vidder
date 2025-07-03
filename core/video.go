@@ -29,7 +29,13 @@ type VideoOptions struct {
 	OS         OS
 }
 
-func (opts *VideoOptions) GetOS() OS { return opts.OS }
+func (opts *VideoOptions) Clone() CommandBuilder {
+	cpy := *opts
+	return &cpy
+}
+
+func (opts *VideoOptions) GetOS() OS         { return opts.OS }
+func (opts *VideoOptions) SetURL(url string) { opts.URL = url }
 func (opts *VideoOptions) SetDefaults() {
 	if opts.Quality == "" {
 		opts.Quality = "best"

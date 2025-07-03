@@ -15,6 +15,13 @@ type AudioOptions struct {
 	OS           OS
 }
 
+func (opts *AudioOptions) Clone() CommandBuilder {
+	cpy := *opts
+	return &cpy
+}
+
+func (opts *AudioOptions) SetURL(url string) { opts.URL = url }
+
 func (opts *AudioOptions) GetOS() OS { return opts.OS }
 func (opts *AudioOptions) SetDefaults() {
 	if opts.AudioExt == "" {

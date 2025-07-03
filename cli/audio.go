@@ -9,10 +9,10 @@ import (
 )
 
 // PromptAudioOptions interactively fills AudioOptions for a video URL or playlist audio.
-func PromptAudioOptions(url string, outdir string, opSys core.OS, isPlaylist bool) *core.AudioOptions {
+func PromptAudioOptions(url string, outdir string, opSys core.OS, askCustomName bool) *core.AudioOptions {
 
 	outputName := ""
-	if !isPlaylist {
+	if askCustomName {
 		outputName = PromptString("File name ? (Leave empty to use default of VIDEO'S TITLE) ")
 		if strings.TrimSpace(outputName) == "" {
 			outputName = "%(title)s"

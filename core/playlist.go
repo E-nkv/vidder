@@ -15,6 +15,12 @@ type PlaylistOptions struct {
 	OS                 OS
 }
 
+func (opts *PlaylistOptions) Clone() CommandBuilder {
+	cpy := *opts
+	return &cpy
+}
+
+func (opts *PlaylistOptions) SetURL(url string) { opts.URL = url }
 func (opts *PlaylistOptions) GetOS() OS {
 	return opts.OS
 }
