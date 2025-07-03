@@ -2,6 +2,7 @@
 Vidder (as in *VIDeo downloaDER*) is a video downloading CLI, written in Go, that wraps the yt-dlp cli.
 
 # Why Vidder?
+0. Its just cooler to do stuff with terminals and CLIs rather than GUIs. It will make you feel like a hacker 😈. (and yes, real developers start counting from 0.)
 1. Most youtube-video downloading apps have some sort of restriction on the freemium version (like only X downloads total, or no playlist downloading) 🤮, as well as chapters or timestamps not downloading correctly. With vidder 💪, you can have it ALL FOR FREE. (though a 🌟 to the project would be great 😉)
 2. The yt-dlp cli is way to complex to use in an intuitive manner, whereas the yt-dlp GUI doesn't allow granular control of customization (for example, setting the resolution of the video to 360p.)
 3. And why not just use spotify or youtube directly? Sure, if your battery is endless and you have cheap and good internet connection. In my case, with a laptop whose battery runs out faster than Usain Bolt, and an Internet Provider with which I have to save mobile data like pennies, it's just not feasable.
@@ -11,58 +12,48 @@ Vidder (as in *VIDeo downloaDER*) is a video downloading CLI, written in Go, tha
 # Features:
 - You can easily download any video or playlist that [yt-dlp](https://github.com/yt-dlp/yt-dlp) can download. (more than 1500 sites)
 - You have granular control over how to download the file: from choosing to download it as an audio with maximum possible quality, to downloading as a video with 480p of resolution, including chapters (or timestamps)
-
+- You can download a batch of videos given a txt file with the video URLS, separated by \n (newlines or ENTER). This happens concurrently, spawning up to 5 * *Number_Of_CPU_Cores* goroutines to make downloads faster.
 
 # Installation:
 
 ## 0. Install yt-dlp:
-Yes, real developers start counting from 0. If u need the docs, go to [yt-dlp's github](https://github.com/yt-dlp/yt-dlp). If you're lazy like me 😼, then here's the summary:
+If u need the docs, go to [yt-dlp's github](https://github.com/yt-dlp/yt-dlp). If you're lazy like me 😼, then here's the summary:
 
 ### On Windows:
-1. open cmd with admin rights and: 
+Open *cmd* with admin rights and RUN ONE BY ONE THE FOLLOWING COMMANDS: 
+ 
+```
+mkdir -p C:\Program Files\vidder & curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe -o "C:\Program Files\vidder\yt-dlp.exe"
+setx PATH "C:\Program Files\vidder;%PATH%"
 
-a. Windows 64bit OS (most likely you are using this one): 
-
-`mkdir -p C:\Program Files\vidder & curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe -o "C:\Program Files\vidder\yt-dlp.exe"`
-
-b. Windows 32bit OS: 
-
-`mkdir -p C:\Program Files\vidder & curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_x86.exe -o "C:\Program Files\vidder\yt-dlp.exe"`
-  
-2. add it to path: 
-
-`setx PATH "C:\Program Files\vidder;%PATH%"` 
-
-3. close terminal, and open either powershell or cmd again, and check if yt-dlp was installed properly: 
-
-`yt-dlp --version`
-
-### On Linux (64bit):
-1. Open UNIX terminal (ubuntu, wsl) and download yt-dlp:
-`sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux -o /usr/local/bin/yt-dlp`
-2. Make it executable
-`sudo chmod +x /usr/local/bin/yt-dlp`
-3. Check if it works: 
-`yt-dlp --version`
+#close and reopen the terminal
+yt-dlp --version #to check if it works
+```
+### On Linux:
+```
+sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux -o /usr/local/bin/yt-dlp
+sudo chmod +x /usr/local/bin/yt-dlp
+yt-dlp --version #check if it works
+```
 ## 1- Install vidder:
-### I. Using Pre-Built binaries (recommended approach)
-#### On Linux | Mac (bash):
+### I. Using Pre-Built binaries (recommended)
+#### On Bash terminal:
 
     ```
-    #remove previous installation if any
-    sudo rm /usr/local/bin/vidder
+    #COPY, PASTE, AND RUN THESE COMMANDS ONE BY ONE IN THE TERMINAL. they will remove previous installation if any, then download vidder inside /usr/local/bin/vidder. then make it executable. 
+    #Make sure to use the correct BINARY_NAME to download. We will use linux64 in the example below. available options are: (vidder-linux64, vidder-linux32, vidder-mac-amd, vidder-mac-arm), 
 
-    #download vidder inside /usr/local/bin/vidder. Make sure to use the correct BINARY_NAME. (vidder-linux64, vidder-linux32, vidder-mac-amd, vidder-mac-arm)
+    sudo rm /usr/local/bin/vidder 
     sudo curl -L https://github.com/E-nkv/vidder/releases/download/1/vidder-linux64 -o /usr/local/bin/vidder
-    
-    #make it executable
-    sudo chmod +x /usr/local/bin/vidder
+    sudo chmod +x /usr/local/bin/vidder 
 
-    #REFRESH THE TERMINAL. (Close and reopen)
-
-    #USE IT!
-    vidder --help OR vidder <URL>
+    #Use it! 
+    vidder videoURL 
+    vidder -f absolute-path-to-txt.txt
+    vidder --help 
+    vidder -h
     ```
+    
     
 
 Tip: if you get an error like *vidder: command not found*, try the following: 
@@ -70,25 +61,21 @@ Tip: if you get an error like *vidder: command not found*, try the following:
 
 #### On Windows (cmd only, since powershell is too ugly)
 ```powershell
+#COPY, PASTE AND RUN ONE BY ONE THE FOLLOWING COMMANDS
+#Make sure to use the correct BINARY_NAME. (vidder-win64 [default], vidder-win32)
 
-#OPEN CMD WITH ADMIN RIGHTS (windows key and search "cmd". right click and hit "open with admin rights")
-
-#remove previous installation if any
 del "C:\Program Files\vidder\vidder.exe" 
-
 mkdir "C:\Program Files\vidder" 
-
-#download vidder inside C:\ProgramFiles\vidder. Make sure to use the correct BINARY_NAME. (vidder-win64, vidder-win32)
 curl -L "https://github.com/E-nkv/vidder/releases/download/1/vidder-win64.exe" -o "C:\Program Files\vidder\vidder.exe" 
-
-#add it to the PATH to have vidder globally available
 setx PATH "C:\Program Files\vidder;%PATH%"
-#if the terminal shows some error related to PATH being too large / truncated, you will need to add "C:\Program Files\vidder" from the windows GUI in "advanced system settings --> environment variables"
 
-#CLOSE AND REOPEN THE TERMINAL. it doesnt have to be on with admin rights this time
+#Close and reopen the terminal. either powershell or cmd, without admin rights if you want.
 
 # USE IT!
-vidder --help OR vidder <URL>
+vidder videoURL 
+vidder -f absolute-path-to-txt.txt
+vidder --help 
+vidder -h
 
 ```
 

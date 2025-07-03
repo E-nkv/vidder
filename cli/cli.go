@@ -28,7 +28,9 @@ func Run() {
 	args := os.Args[1:]
 	if wantsHelp(args) {
 		fmt.Printf("WELCOME TO VIDDER CLI 👋!\n\n")
-		fmt.Println(`Expected usage is: "vidder <URL1> <URL2> <URL3> OR vidder -f path/to/file.txt"`)
+		fmt.Println(`Expected usage is: "vidder <URL> OR vidder -f path/to/file.txt"`)
+		fmt.Println(`if using vidder -f path/to/file.txt", then this txt file must contain the URLs of the videos separated by newlines (one url per line, with or without trailing spaces)`)
+
 		phonkSong := "vidder https://youtu.be/LIddkGIDwJ4?si=UdelqvTvuzgGzAZ0"
 		fmt.Printf("Want an example? Run the following command in the terminal:\n\x1b[35m%s\x1b[0m\n\n", phonkSong)
 		fmt.Printf("Videos will be downloaded at your downloads/vidder, regardless of your Operative System: \n(C:\\Users\\YOURUSERNAME\\Downloads\\vidder) on windows, and /home/YOURUSERNAME/downloads/vidder in UNIX based OS \n\n")
